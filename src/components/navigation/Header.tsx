@@ -3,42 +3,31 @@ import React from 'react'
 import YC from "@/../public/yc-logo.svg"
 import Link from 'next/link'
 import { auth, signOut, signIn } from '@/../auth'
+import { Button } from '../ui/button'
+import NavItem from './NavItem'
 
 const Header = async () => {
     const session = await auth();
     return (
-        <header className='px-5 py-3 bg-white shadow-sm font-work-sans flex justify-between items-center'>
+        <header className='px-6 py-3 bg-white shadow-sm font-work-sans flex justify-between items-center gap-4'>
             <Link href={"/"}>
                 <Image
                     src={YC}
                     alt="YC Logo"
-                    height={40}
-                    width={145}
+                    height={50}
+                    width={150}
+                    className='h-20 sm:h-auto'
                 />
             </Link>
-            <nav className='flex items-center gap-5 text-black'>
+            <nav className='flex items-center gap-3 sm:gap-5 text-black'>
                 {
                     session && session.user ? (
-                        <>
-                            <Link href={"/startup/create"}>
-                                <button>
-                                    <span>Create</span>
-                                </button>
-                            </Link>
-                            <form action={
-                                async () => {
-                                    "use server";
-                                    await signOut({redirectTo: "/"});
-                                }
-                            }>
-                            <button type="submit">
-                                <span>Logout</span>
-                            </button>
-                            </form>
-                            <Link href={`/user/${session.user.id}`}>
-                                {session.user.name}
-                            </Link>
-                        </>
+                        <NavItem user={session.user} signOut={
+                            async () => {
+                                "use server";
+                                await signOut({ redirectTo: "/" });
+                            }
+                        } />
                     ) : (
                         <form action={
                             async () => {
@@ -46,9 +35,11 @@ const Header = async () => {
                                 await signIn("github");
                             }
                         }>
-                            <button type="submit">
+                            <Button variant={"outline"}
+                            className='text-xl font-medium'
+                                type="submit">
                                 SignIn
-                            </button>
+                            </Button>
                         </form>
                     )
                 }

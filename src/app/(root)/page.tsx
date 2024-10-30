@@ -1,9 +1,19 @@
-
+import SearchInput from "@/components/root/SearchInput";
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <h1 className="text-2xl">YC Startup Directories</h1>
-    </div>
+    <main>
+      <section className="orange_container">
+        <h2 className="tag uppercase">Pitch Vote And Grow</h2>
+        <h1 className="heading">
+          Pitch your Startup <br />
+          Connect With Entrepreneurs
+        </h1>
+        <p className="sub-heading">
+          Submit Ideas, Vote on Pitches, and Get Noticed in Virtual Competitions
+        </p>
+        <SearchInput />
+      </section>
+    </main>
   );
 }
