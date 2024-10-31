@@ -68,7 +68,7 @@
   }
 
   .card_grid {
-    @apply grid md:grid-cols-3 sm:grid-cols-2 gap-5;
+    @apply grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5;
   }
 
   .card_grid-sm {
@@ -133,7 +133,7 @@
 
   /* startupcard */
   .startup-card {
-    @apply bg-white border-[5px] border-black py-6 px-5 rounded-[22px] shadow-200 hover:border-primary transition-all duration-500 hover:shadow-300 hover:bg-primary-100;
+    @apply bg-white border-[5px] border-black py-6 px-5 rounded-[22px] shadow-200 hover:border-primary transition-all duration-500 hover:shadow-300 hover:shadow-primary/50 hover:bg-primary/50;
   }
 
   .startup-card_date {
