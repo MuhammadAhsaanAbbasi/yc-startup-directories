@@ -1,29 +1,15 @@
 import SearchInput from "@/components/root/SearchInputForm";
-import StartupCard from "@/components/startup/StartupCard";
+import StartupCard, { StartupCardProps } from "@/components/startup/StartupCard";
+import { client } from "@/sanity/lib/client";
+import { STARTUPS_QUERY } from "@/sanity/lib/queries";
 
 export default async function Home(
   { searchParams }: {
     searchParams: Promise<{ query: string }>
   }) {
   const query = (await searchParams).query
-
-  const posts: StartupProps[] = [{
-      _createdAt : new Date(Date.now()).toLocaleDateString("en-US", {
-        month: "long", day: "numeric", year: "numeric"
-      }),
-      views: 55,
-      author: {
-        _id: 0,
-        name: "John Doe",
-        image: "https://myapplication-logos.s3.ap-south-1.amazonaws.com/hamzah_syed.png",
-      },
-      title: "VC Robots",
-      category: "Robotics",
-      _id: 0,
-      image: "https://myapplication-logos.s3.ap-south-1.amazonaws.com/image.png",
-      description: "This is a product Description",
-    }
-  ]
+  
+  const posts = await client.fetch(STARTUPS_QUERY);
 
   return (
     <main>
@@ -43,7 +29,7 @@ export default async function Home(
           {query ? `Search Results for: ${query}` : "All StartUps"}
           <ul className="my-5 card_grid">
             {posts.length > 0 ? (
-              posts.map((post) => (
+              posts.map((post: StartupCardProps) => (
                 <StartupCard post={post} key={post._id} />
               ))
             ) : (
