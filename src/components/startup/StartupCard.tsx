@@ -44,7 +44,7 @@ const StartupCard = ({ post }: { post: StartupCardProps }) => {
                 </div>
             </div>
             <Link href={`/startup/${post._id}`}>
-                <p className='text-16-medium'>{post.description}</p>
+                <p className='text-16-medium line-clamp-3'>{post.description}</p>
                 <Image
                     src={post?.image || "" }
                     alt={post?.title || ""}
