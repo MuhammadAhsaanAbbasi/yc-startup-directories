@@ -1,10 +1,13 @@
 import React from 'react'
-import { StartupCardProps } from './StartupCard'
 import { dateformat } from '@/lib/utils'
 import Image from 'next/image'
 import Link from 'next/link'
+import markdownit from 'markdown-it'
+
+const md = markdownit()
 
 const StartUpDetails = ({ startDetails }: { startDetails: StartupCardProps }) => {
+    const parsedContent = md.render(startDetails.pitch || "")
     return (
         <>
             <section className="orange_container">
@@ -50,10 +53,19 @@ const StartUpDetails = ({ startDetails }: { startDetails: StartupCardProps }) =>
                         <p className='category-tag'>{startDetails.category}</p>
                     </div>
                     <h3 className='text-30-bold'>StartUp Pitch</h3>
-                    {/* {
-
-                    } */}
+                    {
+                        parsedContent ? (
+                            <article
+                            className='prose max-w-4xl font-work-sans break-all'
+                            dangerouslySetInnerHTML={{ __html: parsedContent }}
+                            />
+                        )
+                        : (
+                            <p className='no-result'>NO Details Provided</p>
+                        )
+                    }
                 </div>
+                <hr className='divider' />
             </section>
         </>
     )

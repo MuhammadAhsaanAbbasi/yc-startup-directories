@@ -14,6 +14,7 @@ export const STARTUPS_QUERY = defineQuery(
     description, 
     category, 
     image,
+    pitch,
 }`
 )
 
