@@ -48,7 +48,7 @@
   }
 
   .orange_container {
-    @apply w-full bg-primary min-h-[530px] pattern flex justify-center items-center flex-col py-10 px-6;
+    @apply w-full bg-primary min-h-full pattern flex justify-center items-center flex-col py-10 px-6;
   }
 
   .tag {
@@ -64,7 +64,7 @@
   }
 
   .section_container {
-    @apply px-6 py-10 max-w-7xl mx-auto;
+    @apply px-8 py-10 max-w-6xl mx-auto;
   }
 
   .card_grid {

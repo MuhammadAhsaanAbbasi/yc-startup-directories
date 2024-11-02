@@ -49,7 +49,7 @@ const NavItem = ({ user, signOut }: NavItemProps) => {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-80 p-4 mx-2 rounded-lg border shadow-lg bg-white-100 text-primary">
                     <div className="flex items-center gap-2">
-                        <div className="flex h-[45px] w-[45px] shrink-0 overflow-hidden rounded-full">
+                        <div className="flex h-11 w-11 shrink-0 overflow-hidden rounded-full">
                             <Image
                                 src={user.image || "/default-avatar.png"}
                                 alt={user.name || "User"}
