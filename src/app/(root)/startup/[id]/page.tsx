@@ -1,6 +1,6 @@
 import StartUpDetails from '@/components/startup/StartUpDetails';
 import Views from '@/components/startup/Views';
-import { sanityFetch, SanityLive } from '@/sanity/lib/live';
+import { sanityFetch } from '@/sanity/lib/live';
 import { STARTUP_BY_ID_QUERY } from '@/sanity/lib/queries';
 import { notFound } from 'next/navigation';
 import React, { Suspense } from 'react'
@@ -25,7 +25,6 @@ const StartUpPage = async ({ params }: params) => {
             <Suspense fallback={<div>Loading...</div>}>
                 <Views id={Id} />
             </Suspense>
-            <SanityLive />
         </main>
     )
 }
