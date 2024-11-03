@@ -6,10 +6,7 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "predev": "npm run typegen",
-    "prebuild": "npm run typegen",
-    "typegen": "sanity schema extract --path=./src/sanity/extract.json && sanity typegen generate"
+    "lint": "next lint"
   },
   "packageManager": "npm@10.9.0",
   "overrides": {
@@ -26,8 +23,10 @@
     "@sanity/image-url": "^1.1.0",
     "@sanity/vision": "^3.62.3",
     "@tailwindcss/typography": "^0.5.15",
+    "@uiw/react-md-editor": "^4.0.4",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "easymde": "^2.18.0",
     "lucide-react": "^0.454.0",
     "markdown-it": "^14.1.0",
     "next": "15.0.3-canary.4",

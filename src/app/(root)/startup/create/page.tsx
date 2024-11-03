@@ -1,4 +1,4 @@
-import CreateStartUpForm from '@/components/startup/CreateStartUpForm'
+import StartUpForm from '@/components/startup/StartUpForm'
 import React from 'react'
 
 const StartUpCreatePage = () => {
@@ -9,7 +9,7 @@ const StartUpCreatePage = () => {
                     Pitch & Submit <br /> your Startup
                 </h1>
             </section>
-            <CreateStartUpForm />
+            <StartUpForm />
         </main>
     )
 }
