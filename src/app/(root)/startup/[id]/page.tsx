@@ -18,6 +18,8 @@ interface params {
     }>
 }
 
+export const experimental_ppr = true;
+
 const StartUpPage = async ({ params }: params) => {
     const id = (await params).id;
 

@@ -3,10 +3,11 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import { Button } from '../ui/button'
+import { Skeleton } from '../ui/skeleton'
 import { dateformat } from '@/lib/utils'
 
 const StartupCard = ({ post }: { post: StartupCardProps }) => {
-    const {title, description, views, author, category, _id, image, _createdAt} = post
+    const { title, description, views, author, category, _id, image, _createdAt } = post
     return (
         <li className='startup-card group'>
             <div className='flex-between myb-1'>
@@ -44,7 +45,7 @@ const StartupCard = ({ post }: { post: StartupCardProps }) => {
             <Link href={`/startup/${_id}`}>
                 <p className='text-16-medium line-clamp-3'>{description}</p>
                 <Image
-                    src={image || "" }
+                    src={image || ""}
                     alt={title || ""}
                     height={200}
                     width={200}
@@ -66,3 +67,18 @@ const StartupCard = ({ post }: { post: StartupCardProps }) => {
 }
 
 export default StartupCard
+
+
+export const StartupCardSkeleton = () => {
+    return (
+        <ul className='card_grid-sm'>
+            {
+                [0,1,2,3,4].map((index) => (
+                    <li key={index}>
+                <Skeleton className='startup-card_skeleton' />
+            </li>
+            ))
+        }
+        </ul>
+    )
+}
