@@ -14,11 +14,12 @@ import {
 
 
 interface NavItemProps {
-    user: UserProps
+    user: UserProps,
+    id?: string;
     signOut: () => Promise<void>
 }
 
-const NavItem = ({ user, signOut }: NavItemProps) => {
+const NavItem = ({ user, id, signOut }: NavItemProps) => {
     const [isPending, startTransition] = useTransition();
 
     const onSubmit = async () => {
@@ -65,7 +66,7 @@ const NavItem = ({ user, signOut }: NavItemProps) => {
                     </div>
                     <DropdownMenuSeparator className="my-2 border-t border-gray-200" />
                     <DropdownMenuItem className="hover:bg-gray-100 p-2 rounded-md">
-                        <Link href={`/user/${user.id}`} className="flex items-center gap-2">
+                        <Link href={`/user/${id}`} className="flex items-center gap-2">
                             <Settings className="h-6 w-6" />
                             <span className='font-medium text-[16px]'>Manage account</span>
                         </Link>

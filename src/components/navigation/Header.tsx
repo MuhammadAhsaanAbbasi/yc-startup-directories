@@ -8,8 +8,9 @@ import NavItem from './NavItem'
 
 const Header = async () => {
     const session = await auth();
+
     return (
-        <header className='px-6 py-3 bg-white shadow-sm font-work-sans flex justify-between items-center gap-4'>
+        <header className='px-6 py-3 bg-white shadow-sm font-work-sans flex justify-between items-center gap-4 sticky top-0 z-10'>
             <Link href={"/"}>
                 <Image
                     src={YC}
@@ -22,7 +23,7 @@ const Header = async () => {
             <nav className='flex items-center gap-3 sm:gap-5 text-black'>
                 {
                     session && session.user ? (
-                        <NavItem user={session.user} signOut={
+                        <NavItem user={session.user} id={session?.id} signOut={
                             async () => {
                                 "use server";
                                 await signOut({ redirectTo: "/" });
