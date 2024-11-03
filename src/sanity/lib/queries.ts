@@ -13,8 +13,8 @@ export const STARTUPS_QUERY = defineQuery(
     views,
     description, 
     category, 
-    image,
     pitch,
+    "image": image.asset->url,
 }`
 )
 
@@ -31,8 +31,8 @@ export const STARTUP_BY_ID_QUERY = defineQuery(
     views,
     description, 
     category, 
-    image,
-    pitch
+    pitch,
+    "image": image.asset->url,
 }`
 )
 

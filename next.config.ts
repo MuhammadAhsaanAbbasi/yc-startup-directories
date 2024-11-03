@@ -14,11 +14,19 @@ const nextConfig: NextConfig = {
         hostname: "**.com",
         port: ''
       },
+      {
+        protocol: 'https',
+        hostname: "cdn.sanity.io",
+        port: ''
+      },
     ]
   },
   experimental: {
     ppr: "incremental",
     after: true,
+    serverActions: {
+      bodySizeLimit: "3mb",
+    },
   },
   devIndicators: {
     appIsrStatus: true,

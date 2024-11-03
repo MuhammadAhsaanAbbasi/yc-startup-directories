@@ -10,6 +10,11 @@ import { client } from '@/sanity/lib/client'
 import { STARTUP_BY_ID_QUERY } from '@/sanity/lib/queries'
 import { Textarea } from '../ui/textarea'
 import MDEditor from '@uiw/react-md-editor';
+import { CreateStartUp } from '@/lib/actions/startup-form.actions'
+import { toast } from '@/hooks/use-toast'
+import { Button } from '../ui/button'
+import { LoaderCircle } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 
 const StartUpForm = ({ StartUpId }: { StartUpId?: string }) => {
 
@@ -17,13 +22,17 @@ const StartUpForm = ({ StartUpId }: { StartUpId?: string }) => {
 
     const [isPending, startTransition] = useTransition();
 
-    useEffect( () => {
+    useEffect(() => {
         const fetchData = async () => {
             const post = await client.fetch(STARTUP_BY_ID_QUERY, { id: StartUpId });
-            if(post) setStartUpDetails(post)
+            if (post) setStartUpDetails(post)
         }
-        fetchData();
-    }, [StartUpId])
+        if (StartUpId) {
+            fetchData();
+        }
+    }, [StartUpId]);
+
+    const router = useRouter();
 
     const form = useForm<z.infer<typeof StartUpFormSchema>>({
         resolver: zodResolver(StartUpFormSchema),
@@ -37,8 +46,37 @@ const StartUpForm = ({ StartUpId }: { StartUpId?: string }) => {
 
     const onSubmit = (values: z.infer<typeof StartUpFormSchema>) => {
         startTransition(() => {
-            console.log(values)
-        })
+            CreateStartUp(values)
+                .then((data) => {
+                    if (data?.error) {
+                        toast({
+                            title: "Failed",
+                            description: data?.error.toString(),
+                            variant: "destructive",
+                            duration: 2000,
+                        });
+                    }
+                    if (data.success) {
+                        toast({
+                            title: "Created!",
+                            description: data?.message,
+                            duration: 2000,
+                        });
+                        router.push(`/startup/${data.success._id}`);
+                    }
+                })
+                .catch((error) => {
+                    toast({
+                        title: "Failed",
+                        description: error.message,
+                        variant: "destructive",
+                        duration: 2000,
+                    });
+                })
+                .finally(() => {
+                    form.reset();
+                });
+        });
     };
 
     return (
@@ -48,7 +86,7 @@ const StartUpForm = ({ StartUpId }: { StartUpId?: string }) => {
                     control={form.control}
                     name={"title"}
                     render={({ field }) => (
-                        <FormItem className='col-span-2'>
+                        <FormItem>
                             <FormLabel htmlFor={"title"} className='startup-form_label'>Title</FormLabel>
                             <FormControl>
                                 <Input
@@ -71,7 +109,7 @@ const StartUpForm = ({ StartUpId }: { StartUpId?: string }) => {
                     control={form.control}
                     name={"description"}
                     render={({ field }) => (
-                        <FormItem className='col-span-2'>
+                        <FormItem>
                             <FormLabel htmlFor={"description"} className='startup-form_label'>Description</FormLabel>
                             <FormControl>
                                 <Textarea
@@ -93,30 +131,32 @@ const StartUpForm = ({ StartUpId }: { StartUpId?: string }) => {
                     control={form.control}
                     name={"image"}
                     render={({ field }) => (
-                        <FormItem className='col-span-2'>
+                        <FormItem className='flex flex-col justify-center'>
                             <FormLabel htmlFor={"image"} className='startup-form_label'>Image</FormLabel>
                             <FormControl>
-                                <Input
+                                <input
                                     id={"image"}
-                                    {...field}
                                     type="file"
-                                    placeholder='StartUp Title'
                                     className={"startup-form_input"}
                                     onChange={(e) => {
-                                        field.onChange(e.target.value);
+                                        const file = e.target.files?.[0];
+                                        field.onChange(file);
                                     }}
                                     disabled={isPending}
+                                    ref={field.ref}
+                                    name={field.name}
                                 />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
                     )}
                 />
+
                 <FormField
                     control={form.control}
                     name={"category"}
                     render={({ field }) => (
-                        <FormItem className='col-span-2'>
+                        <FormItem>
                             <FormLabel htmlFor={"category"} className='startup-form_label'>Category</FormLabel>
                             <FormControl>
                                 <Input
@@ -139,19 +179,18 @@ const StartUpForm = ({ StartUpId }: { StartUpId?: string }) => {
                     control={form.control}
                     name={"pitch"}
                     render={({ field }) => (
-                        <FormItem className='col-span-2'>
+                        <FormItem>
                             <FormLabel htmlFor={"pitch"} className='startup-form_label'>StartUp Pitch</FormLabel>
                             <FormControl>
                                 <MDEditor
-                                    id={"title"}
-                                    {...field}
+                                    id={"pitch"}
                                     value={field.value}
                                     onChange={(e) => {
                                         field.onChange(e as string);
                                     }}
                                     preview='edit'
                                     height={400}
-                                    style={{borderRadius: 20, overflow: "hidden"}}
+                                    style={{ borderRadius: 20, overflow: "hidden" }}
                                     textareaProps={{
                                         placeholder: "Briefly Describe Your Ideas, What Problem it's solves"
                                     }}
@@ -164,6 +203,17 @@ const StartUpForm = ({ StartUpId }: { StartUpId?: string }) => {
                         </FormItem>
                     )}
                 />
+                <Button
+                    type="submit"
+                    className='rounded-lg disabled:cursor-progress text-lg w-full py-6'
+                    disabled={isPending}
+                >
+                    {isPending ? (
+                        <LoaderCircle className='animate-spin' />
+                    ) : (
+                        'Create StartUp'
+                    )}
+                </Button>
             </form>
         </Form>
     )
