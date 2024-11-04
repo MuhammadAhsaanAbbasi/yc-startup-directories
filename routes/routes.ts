@@ -1,0 +1,1 @@
+export const protectedRoutes = ["/user/:path*", "/startup/:path*/edit", "/startup/create"];

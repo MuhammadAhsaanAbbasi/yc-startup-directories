@@ -1,7 +1,12 @@
 import StartUpForm from '@/components/startup/StartUpForm'
 import React from 'react'
+import { auth } from '../../../../../auth';
+import { redirect } from 'next/navigation';
 
-const StartUpCreatePage = () => {
+const StartUpCreatePage = async () => {
+    const session = await auth();
+
+    if (!session) redirect("/");
     return (
         <main>
             <section className='orange_container'>
