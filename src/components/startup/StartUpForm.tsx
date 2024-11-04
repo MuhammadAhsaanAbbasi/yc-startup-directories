@@ -195,7 +195,7 @@ const StartUpForm = ({ StartUpId }: { StartUpId?: string }) => {
                             render={({ field }) => (
                                 <FormItem className="flex flex-col justify-center">
                                     <FormLabel htmlFor={'image'} className="startup-form_label">
-                                        Image
+                                        Image <span>Size must be less then 3mb</span>
                                     </FormLabel>
                                     <FormControl>
                                         <input
@@ -283,9 +283,9 @@ const StartUpForm = ({ StartUpId }: { StartUpId?: string }) => {
                     className="rounded-lg disabled:cursor-progress text-lg w-full py-6"
                     disabled={isPending}
                 >
-                    {isPending ? <LoaderCircle className="animate-spin size-6" /> 
-                    : StartUpId ? 'Update StartUp' : 'Create StartUp'
-                }
+                    {isPending ? <LoaderCircle className="animate-spin size-6" />
+                        : StartUpId ? 'Update StartUp' : 'Create StartUp'
+                    }
                 </Button>
             </form>
         </Form>
