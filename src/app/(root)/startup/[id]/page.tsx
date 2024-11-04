@@ -9,6 +9,8 @@ import React, { Suspense } from 'react'
 import markdownit from 'markdown-it'
 import Image from 'next/image';
 import Link from 'next/link';
+import { Pencil } from 'lucide-react';
+import { auth } from '../../../../../auth';
 
 const md = markdownit()
 
@@ -22,6 +24,8 @@ export const experimental_ppr = true;
 
 const StartUpPage = async ({ params }: params) => {
     const id = (await params).id;
+
+    const session = await auth();
 
     const post = await client.fetch(STARTUP_BY_ID_QUERY, { id });
 
@@ -51,7 +55,7 @@ const StartUpPage = async ({ params }: params) => {
                     className="w-full h-full rounded-2xl"
                 />
                 <div className='space-y-5 my-6 max-w-4xl mx-auto'>
-                    <div className='flex-between gap-5'>
+                    <div className='flex-between'>
                         <Link href={`/user/${post.author?._id}`}
                             className='flex gap-2 items-center my-2'
                         >
@@ -71,7 +75,18 @@ const StartUpPage = async ({ params }: params) => {
                                 </p>
                             </div>
                         </Link>
-                        <p className='category-tag'>{post.category}</p>
+                        <div className='flex items-center gap-2'>
+                            <p className='category-tag'>
+                                {post.category}
+                            </p>
+                            {
+                                session?.id == post.author?._id && (
+                                    <Link href={`/startup/${post._id}/edit`} className='bg-white hover:bg-white-100 px-5 py-2 rounded-md'>
+                                        <Pencil className='text-primary' size={25} />
+                                    </Link>
+                                )
+                            }
+                        </div>
                     </div>
                     <h3 className='text-30-bold'>StartUp Pitch</h3>
                     {

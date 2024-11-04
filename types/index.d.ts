@@ -24,3 +24,26 @@ declare type StartupCardProps = {
     image: string | null;
     pitch: string | null;
 };
+
+declare type StartupDetails = Partial<{
+    title: string;
+    description: string;
+    category: string;
+    slug: {
+        _type: 'slug';
+        current: string;
+    };
+    views: number;
+    author: {
+        _type: 'reference';
+        _ref: string;
+    };
+    pitch: string;
+    image: {
+        _type: 'image';
+        asset: {
+            _type: 'reference';
+            _ref: string;
+        };
+    };
+}>;
