@@ -1,5 +1,5 @@
 import "server-only";
-
+export const config = { runtime: 'edge' };
 import { createClient } from "next-sanity";
 import { apiVersion, dataset, projectId, token } from "../env";
 
