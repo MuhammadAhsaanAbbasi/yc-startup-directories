@@ -84,3 +84,21 @@ export const STARTUP_BY_AUTHOR_ID_QUERY = defineQuery(
     "image": image.asset->url,
 }`
 )
+
+export const STARTUPS_BY_CATEGORY_QUERY = defineQuery(
+    `*[_type == "startup" && category == $category && title != $title]{
+    _id, 
+    title,
+    slug,
+    _createdAt, 
+    author -> {
+        _id, name, username,
+        image, bio
+    },
+    views,
+    description, 
+    category, 
+    pitch,
+    "image": image.asset->url,
+}`
+)

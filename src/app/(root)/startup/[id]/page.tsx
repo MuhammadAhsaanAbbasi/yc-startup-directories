@@ -3,7 +3,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { dateformat } from '@/lib/utils';
 import { client } from '@/sanity/lib/client';
 // import { sanityFetch } from '@/sanity/lib/live';
-import { STARTUP_BY_ID_QUERY } from '@/sanity/lib/queries';
+import { STARTUP_BY_ID_QUERY, STARTUPS_BY_CATEGORY_QUERY } from '@/sanity/lib/queries';
 import { notFound } from 'next/navigation';
 import React, { Suspense } from 'react'
 import markdownit from 'markdown-it'
@@ -11,6 +11,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Pencil } from 'lucide-react';
 import { auth } from '../../../../../auth';
+import StartupCard from '@/components/startup/StartupCard';
 
 const md = markdownit()
 
@@ -27,7 +28,17 @@ const StartUpPage = async ({ params }: params) => {
 
     const session = await auth();
 
-    const post = await client.fetch(STARTUP_BY_ID_QUERY, { id });
+    // Fetch the post first
+    const postData: StartupCardProps = await client.fetch(STARTUP_BY_ID_QUERY, { id });
+
+    // Now fetch categoryStartUps using post.category
+    const categoryStartUpsData =  client.fetch(STARTUPS_BY_CATEGORY_QUERY, {
+        category: postData.category,
+        title: postData.title,
+    });
+
+    // Initiate both requests in parallel
+    const [post, categoryStartUp] = await Promise.all([postData, categoryStartUpsData])
 
     if (!post) return notFound();
 
@@ -102,6 +113,20 @@ const StartUpPage = async ({ params }: params) => {
                     }
                 </div>
                 <hr className='divider' />
+                {
+                    categoryStartUp.length > 0 && (
+                        <div className='max-w-4xl mx-auto'>
+                            <p className='text-30-semibold'>Recommended StartUps</p>
+                            <ul className='mt-5 card_grid-sm'>
+                            {
+                                categoryStartUp.map((post: StartupCardProps) => (
+                                    <StartupCard key={post._id} post={post} />
+                                ))
+                            }
+                            </ul>
+                        </div>
+                    )
+                }
                 <Suspense fallback={<Skeleton className="view_skeleton" />}>
                     <Views id={id} />
                 </Suspense>
