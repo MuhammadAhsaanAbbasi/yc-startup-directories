@@ -45,7 +45,7 @@ const {data: posts} = await sanityFetch({query: STARTUPS_QUERY, params});
           </ul>
         </h4>
       </section>
-      <SanityLive />
+      <SanityLive /> 
     </main>
   );
 }
